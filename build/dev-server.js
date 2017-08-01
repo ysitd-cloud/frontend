@@ -40,6 +40,10 @@ compiler.plugin('compilation', function (compilation) {
   })
 });
 
+app.get(/\/([\w\.]+)\/app.css/, (req, res) => {
+  res.contentType('text/css');
+  res.end();
+});
 
 // handle fallback for HTML5 history API
 app.use(require('connect-history-api-fallback')());
