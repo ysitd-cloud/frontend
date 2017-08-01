@@ -1,9 +1,7 @@
-import Vue from 'vue';
-import Vuetify from 'vuetify';
 import App from '../../pages/account/login/Page.vue';
+import bootstrap from '../../common/bootstrap';
+import store from '../../common/store';
+import { bind } from '../../common/url';
 
-Vue.use(Vuetify);
-
-new Vue({
-  render: h => h(App),
-}).$mount('#app');
+bind(store);
+bootstrap(App);
