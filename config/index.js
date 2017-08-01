@@ -6,7 +6,7 @@ module.exports = {
     env: require('./prod.env'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: '',
-    assetsPublicPath: '/static',
+    assetsPublicPath: '/assets',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
@@ -25,7 +25,7 @@ module.exports = {
     port: 8000,
     autoOpenBrowser: false,
     assetsSubDirectory: '',
-    assetsPublicPath: '/static',
+    assetsPublicPath: '/',
     proxyTable: {
       '/': 'http://localhost:8080/'
     },

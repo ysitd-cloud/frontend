@@ -40,14 +40,6 @@ compiler.plugin('compilation', function (compilation) {
   })
 });
 
-// proxy api requests
-Object.keys(proxyTable).forEach(function (context) {
-  let options = proxyTable[context];
-  if (typeof options === 'string') {
-    options = { target: options }
-  }
-  app.use(proxyMiddleware(options.filter || context, options))
-});
 
 // handle fallback for HTML5 history API
 app.use(require('connect-history-api-fallback')());
@@ -59,9 +51,14 @@ app.use(devMiddleware);
 // compilation error display
 app.use(hotMiddleware);
 
-// serve pure static assets
-const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory);
-app.use(staticPath, express.static('./static'));
+// proxy api requests
+Object.keys(proxyTable).forEach(function (context) {
+  let options = proxyTable[context];
+  if (typeof options === 'string') {
+    options = { target: options }
+  }
+  app.use(proxyMiddleware(options.filter || context, options))
+});
 
 const uri = 'http://localhost:' + port;
 
