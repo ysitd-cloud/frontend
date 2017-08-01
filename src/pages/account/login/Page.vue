@@ -8,6 +8,7 @@
               <v-toolbar-title>Login</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
+              <span class="red--text" v-if="errorMessage">{{ errorMessage }}</span>
               <v-text-field label="Username" v-model="username" autofocus required></v-text-field>
               <v-text-field label="Password" v-model="password" type="password" required></v-text-field>
             </v-card-text>
@@ -17,6 +18,7 @@
           </v-card>
         </v-flex>
       </v-layout>
+      <input type="hidden" :value="nextUrl" name="next"/>
     </form>
   </body-display>
 </template>
