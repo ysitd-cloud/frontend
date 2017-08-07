@@ -5,13 +5,15 @@
   "author": "Tony Yip <tony@opensource.hk>",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js",
+    "dev": "node server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "express": "^4.15.4",
     "express-static-gzip": "^0.3.0",
+    "morgan": "^1.8.2",
     "vue": "^2.3.3",
     "vuetify": "^0.14.7",
     "vuex": "^2.3.1"
@@ -38,7 +40,6 @@
     "eslint-plugin-html": "^3.0.0",
     "eslint-plugin-import": "^2.2.0",
     "eventsource-polyfill": "^0.9.6",
-    "express": "^4.14.1",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.1",
     "friendly-errors-webpack-plugin": "^1.1.3",
