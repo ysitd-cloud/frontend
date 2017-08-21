@@ -1,5 +1,7 @@
 const utils = require('./utils');
+const path = require('path');
 const webpack = require('webpack');
+const AssetsPlugin = require('assets-webpack-plugin');
 const config = require('../config');
 const merge = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.base.conf');
@@ -17,6 +19,12 @@ module.exports = merge(baseWebpackConfig, {
   // cheap-module-eval-source-map is faster for development
   devtool: '#source-map',
   plugins: [
+    new AssetsPlugin({
+      prettyPrint: true,
+      update: true,
+      filename: 'assets.json',
+      path: path.join(process.cwd(), 'dist'),
+    }),
     new webpack.DefinePlugin({
       'process.env': config.dev.env
     }),

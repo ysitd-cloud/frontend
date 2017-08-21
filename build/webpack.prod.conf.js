@@ -3,6 +3,7 @@ const utils = require('./utils');
 const webpack = require('webpack');
 const config = require('../config');
 const merge = require('webpack-merge');
+const AssetsPlugin = require('assets-webpack-plugin');
 const baseWebpackConfig = require('./webpack.base.conf');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
@@ -23,6 +24,10 @@ const webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('[id].[chunkhash].js')
   },
   plugins: [
+    new AssetsPlugin({
+      path: path.join(process.cwd(), 'dist'),
+      filename: 'assets.json',
+    }),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env
