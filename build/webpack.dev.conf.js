@@ -23,7 +23,7 @@ module.exports = merge(baseWebpackConfig, {
       prettyPrint: true,
       update: true,
       filename: 'assets.json',
-      path: path.join(process.cwd(), 'dist'),
+      path: path.join(process.cwd(), 'static'),
     }),
     new webpack.DefinePlugin({
       'process.env': config.dev.env
