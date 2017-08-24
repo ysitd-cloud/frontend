@@ -9,8 +9,8 @@
             </v-toolbar>
             <v-card-text>
               <span class="red--text" v-if="errorMessage">{{ errorMessage }}</span>
-              <v-text-field label="Username" v-model="username" autofocus required></v-text-field>
-              <v-text-field label="Password" v-model="password" type="password" required></v-text-field>
+              <v-text-field name="username" label="Username" v-model="username" autofocus required></v-text-field>
+              <v-text-field name="password" label="Password" v-model="password" type="password" required></v-text-field>
             </v-card-text>
             <v-card-actions>
               <v-btn flat class="primary--text" type="submit">Login</v-btn>
