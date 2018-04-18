@@ -28,10 +28,10 @@ exports.cssLoaders = function (opts) {
     if (options.extract) {
       return ExtractTextPlugin.extract({
         use: loaders,
-        fallback: 'vue-style-loader',
+        fallback: 'style-loader',
       });
     }
-    return ['vue-style-loader'].concat(loaders);
+    return ['style-loader'].concat(loaders);
   }
 
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html

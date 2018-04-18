@@ -4,9 +4,8 @@ const merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const AssetsWebpackPlugin = require('assets-webpack-plugin');
-const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
 const utils = require('./utils');
-const base = require('./webpack.dev.conf');
+const base = require('./webpack.base.conf');
 
 module.exports = merge.smart(base, {
   module: {
@@ -16,7 +15,7 @@ module.exports = merge.smart(base, {
     }),
   },
   output: {
-    filename: '[name].[chunkhash].js',
+    filename: '[name].[hash].js',
     chunkFilename: '[id].[chunkhash].js',
   },
   plugins: [
@@ -59,6 +58,5 @@ module.exports = merge.smart(base, {
       name: 'manifest',
       chunks: ['vendor'],
     }),
-    new VueSSRClientPlugin(),
   ],
 });

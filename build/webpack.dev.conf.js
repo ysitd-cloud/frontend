@@ -1,7 +1,7 @@
 const path = require('path');
 const { HotModuleReplacementPlugin, NoEmitOnErrorsPlugin } = require('webpack');
 const merge = require('webpack-merge');
-const base = require('./webpack.dev.conf');
+const base = require('./webpack.base.conf');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const AssetsWebpackPlugin = require('assets-webpack-plugin');
 const utils = require('./utils');
