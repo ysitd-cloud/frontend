@@ -6,7 +6,7 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const AssetsWebpackPlugin = require('assets-webpack-plugin');
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin');
 const utils = require('./utils');
-const base = require('./webpack.client.conf');
+const base = require('./webpack.dev.conf');
 
 module.exports = merge.smart(base, {
   module: {

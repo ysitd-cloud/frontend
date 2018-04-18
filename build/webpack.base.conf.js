@@ -1,13 +1,14 @@
+const { CDN_PATH } = process.env;
+
 module.exports = {
-  devtool: 'source-map',
-  resolve: {
-    alias: {
-      vue$: 'vue/dist/vue.runtime.js',
-    }
+  entry: {
+    app: ['./src/app.js'],
   },
+  devtool: 'source-map',
   output: {
     filename: '[name].js',
     path: `${__dirname}/../dist`,
+    publicPath: CDN_PATH || '/',
   },
   module: {
     rules: [
@@ -21,9 +22,13 @@ module.exports = {
         },
       },
       {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: vueConf,
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
       },
     ],
   },
