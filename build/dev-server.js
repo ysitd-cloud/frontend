@@ -28,7 +28,7 @@ compiler.plugin('compilation', function (compilation) {
 app.use(morgan('dev'));
 
 app.use(serveStatic('static'));
-app.use(serveStatic('elements'));
+app.use('/elements', serveStatic('elements'));
 app.use(serveStatic('demo'));
 
 app.use(devMiddleware);
