@@ -1,0 +1,15 @@
+<template>
+
+</template>
+<script>
+  (function () {
+    /* globals document, customElements, HTMLElement */
+    const importDoc = document.currentScript.ownerDocument;
+
+    class LoginView extends HTMLElement {
+      static get observedAttributes() { return []; }
+    }
+
+    customElements.define('login-view', LoginView);
+  }());
+</script>
