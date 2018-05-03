@@ -1,0 +1,59 @@
+<link rel="import" href="./responsive.html">
+
+
+<script>
+  (function () {
+    /* globals Chefdoeurve, window */
+
+    class ScreenElement extends Chefdoeurve.ResponsiveElement {
+      constructor() {
+        super();
+        this.screenSizing = {
+          xs: window.matchMedia('(max-width: 600px)'),
+          sm: window.matchMedia('(max-width: 960px)'),
+          md: window.matchMedia('(max-width: 1264px)'),
+          lg: window.matchMedia('(max-width: 1904px)'),
+          xl: window.matchMedia('(min-width: 1905px)'),
+        };
+
+        this.handleScreenResize = this.handleScreenResize.bind(this);
+
+        Object.values(this.screenSizing)
+          .forEach(q => q.addListener(this.handleScreenResize));
+      }
+
+      get matchScreenSize() {
+        return Object.keys(this.screenSizing).reverse()
+          .reduce((match, key) => {
+            if (this.screenSizing[key].matches) {
+              return key;
+            }
+            return match;
+          }, 'xs');
+      }
+
+      handleScreenResize() {
+        this.configStyle();
+      }
+
+      configStyle() {
+        super.configStyle();
+        const size = `${this.matchScreenSize}ScreenStyle`;
+        if (size in this) {
+          Object.assign(this.style, this[size]);
+        }
+      }
+
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        Object.values(this.screenSizing)
+          .forEach((query) => {
+            query.removeListener(this.handleScreenResize);
+          });
+      }
+    }
+
+    Chefdoeurve.ScreenElement = ScreenElement;
+  }());
+</script>
+

@@ -7,7 +7,7 @@
     }
 
     :host-context([fluid]) {
-      max-width: 100%;
+      max-width: 100% !important;
     }
   </style>
 
@@ -19,31 +19,20 @@
     /* globals document, customElements, Chefdoeurve */
     const importDoc = document.currentScript.ownerDocument;
 
-    class GridContainer extends Chefdoeurve.ResponsiveElement {
+    class GridContainer extends Chefdoeurve.ScreenElement {
       static get observedAttributes() { return []; }
 
-      constructor() {
-        super();
-        this.mediaQueries([
-          {
-            query: '(min-width: 600px)',
-            style: {
-              maxWidth: '562.5px',
-            },
-          },
-          {
-            query: '(min-width: 960px)',
-            style: {
-              maxWidth: '900px',
-            },
-          },
-          {
-            query: '(min-width: 1264px)',
-            style: {
-              maxWidth: '1185px',
-            },
-          },
-        ]);
+
+      get smScreenStyle() {
+        return { maxWidth: '562.5px' };
+      }
+
+      get mdScreenStyle() {
+        return { maxWidth: '900px' };
+      }
+
+      get lgScreenStyle() {
+        return { maxWidth: '1185px' };
       }
 
       getStyles() {
