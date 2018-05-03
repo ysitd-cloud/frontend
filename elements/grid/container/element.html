@@ -1,24 +1,5 @@
 <template id="grid-container">
-  <link href="" rel="stylesheet">
   <style>
-    @media only screen and (min-width: 1264px) {
-      :host {
-        max-width: 1185px;
-      }
-    }
-
-    @media only screen and (min-width: 960px) {
-      :host {
-        max-width: 900px;
-      }
-    }
-
-    @media only screen and (min-width: 600px) {
-      :host {
-        max-width: 562.5px;
-      }
-    }
-
     :host(*) {
       flex: 1 1 100%;
       width: 100%;
@@ -38,8 +19,32 @@
     /* globals document, customElements, Chefdoeurve */
     const importDoc = document.currentScript.ownerDocument;
 
-    class GridContainer extends Chefdoeurve.CustomElement {
+    class GridContainer extends Chefdoeurve.ResponsiveElement {
       static get observedAttributes() { return []; }
+
+      constructor() {
+        super();
+        this.mediaQueries([
+          {
+            query: '(min-width: 600px)',
+            style: {
+              maxWidth: '562.5px',
+            },
+          },
+          {
+            query: '(min-width: 960px)',
+            style: {
+              maxWidth: '900px',
+            },
+          },
+          {
+            query: '(min-width: 1264px)',
+            style: {
+              maxWidth: '1185px',
+            },
+          },
+        ]);
+      }
 
       getStyles() {
         return {

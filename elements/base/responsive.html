@@ -7,14 +7,18 @@
     class ResponsiveElement extends Chefdoeurve.CustomElement {
       constructor() {
         super();
-        this.mediaQueries = {};
+        this.mediaQueryList = {};
         this.handleMediaQueryCallback = this.handleMediaQueryCallback.bind(this);
       }
 
       mediaQuery(query, style) {
-        const q = window.matchMedia(query);
-        q.addListener(this.handleMediaQueryCallback);
-        this.mediaQueries[q] = style;
+        const list = window.matchMedia(query);
+        list.addListener(this.handleMediaQueryCallback);
+        this.mediaQueryList[query] = { list, style };
+      }
+
+      mediaQueries(queries) {
+        queries.forEach(q => this.mediaQuery(q.query, q.style));
       }
 
       handleMediaQueryCallback() {
@@ -22,23 +26,25 @@
       }
 
       get mediaStyles() {
-        return Object.keys(this.mediaQueries)
+        return Object.values(this.mediaQueryList)
           .reduce((styles, query) => {
-            if (query.matches) {
-              const style = this.mediaQueries[query];
-              Object.assign(styles, style);
+            if (query.list.matches) {
+              Object.assign(styles, query.style);
             }
             return styles;
           }, {});
       }
 
       configStyle() {
+        super.configStyle();
         Object.assign(this.style, this.mediaStyles);
       }
 
       disconnectedCallback() {
-        Object.keys(this.mediaQueries)
-          .forEach(query => query.removeListener(this.handleMediaQueryCallback));
+        Object.values(this.mediaQueryList)
+          .forEach((query) => {
+            query.list.removeListener(this.handleMediaQueryCallback);
+          });
       }
     }
 
