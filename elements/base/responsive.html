@@ -1,0 +1,47 @@
+<link href="element.html" rel="import">
+
+<script>
+  (function () {
+    /* globals Chefdoeurve, window */
+
+    class ResponsiveElement extends Chefdoeurve.CustomElement {
+      constructor() {
+        super();
+        this.mediaQueries = {};
+        this.handleMediaQueryCallback = this.handleMediaQueryCallback.bind(this);
+      }
+
+      mediaQuery(query, style) {
+        const q = window.matchMedia(query);
+        q.addListener(this.handleMediaQueryCallback);
+        this.mediaQueries[q] = style;
+      }
+
+      handleMediaQueryCallback() {
+        this.configStyle();
+      }
+
+      get mediaStyles() {
+        return Object.keys(this.mediaQueries)
+          .reduce((styles, query) => {
+            if (query.matches) {
+              const style = this.mediaQueries[query];
+              Object.assign(styles, style);
+            }
+            return styles;
+          }, {});
+      }
+
+      configStyle() {
+        Object.assign(this.style, this.mediaStyles);
+      }
+
+      disconnectedCallback() {
+        Object.keys(this.mediaQueries)
+          .forEach(query => query.removeListener(this.handleMediaQueryCallback));
+      }
+    }
+
+    Chefdoeurve.ResponsiveElement = ResponsiveElement;
+  }());
+</script>

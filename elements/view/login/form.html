@@ -1,0 +1,55 @@
+<link rel="import" href="../../grid/row/element.html">
+<link rel="import" href="../../grid/col/element.html">
+<link rel="import" href="../../component/card/element.html">
+<link rel="import" href="../../component/toolbar/element.html">
+
+<template id="login-form">
+  <style>
+    * {
+      background-repeat: no-repeat;
+      padding: 0;
+      margin: 0;
+    }
+
+    *, :after, :before {
+      box-sizing: inherit;
+    }
+
+    component-card {
+      height: auto;
+    }
+  </style>
+  <form method="post" action="/login">
+    <grid-row wrap>
+      <grid-col offset-md="3" md="6" xs="12">
+        <component-card>
+          <component-toolbar dark color="primary">
+            <component-toolbar-title>Login</component-toolbar-title>
+          </component-toolbar>
+        </component-card>
+      </grid-col>
+    </grid-row>
+    <input type="hidden" name="next" value="/" />
+  </form>
+</template>
+
+<script>
+  (function () {
+    /* globals document, customElements, Chefdoeurve */
+    const importDoc = document.currentScript.ownerDocument;
+
+    class LoginForm extends Chefdoeurve.CustomElement {
+      static get observedAttributes() { return ['next']; }
+
+      render() {
+        const template = importDoc.querySelector('template#login-form');
+        const node = importDoc.importNode(template.content, true);
+        node.querySelector('input[name=next]').setAttribute('value', this.getAttribute('next'));
+        this.setNode(node);
+      }
+    }
+
+    customElements.define('login-form', LoginForm);
+  }());
+</script>
+

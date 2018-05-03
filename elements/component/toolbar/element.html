@@ -1,0 +1,67 @@
+<link href="../../base/base.html" rel="import">
+<link href="./title.html" rel="import">
+
+<template id="component-card-toolbar">
+  <style>
+    :host {
+      display: block;
+      background-color: #f5f5f5;
+      color: rgba(0,0,0,.87);
+
+      position: relative;
+      transition: .3s cubic-bezier(.25,.8,.5,1);
+      width: 100%;
+      will-change: padding-left;
+      box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px rgba(0,0,0,.14), 0 1px 10px rgba(0,0,0,.12);
+    }
+
+    :host([dark]) {
+      background-color: #212121;
+      color: #fff;
+    }
+
+    :host([color=primary]) {
+      background-color: #44a148!important;
+      border-color: #44a148!important;
+    }
+
+    [data-role=content] {
+      align-items: center;
+      display: flex;
+      height: 64px;
+    }
+
+    * {
+      background-repeat: no-repeat;
+      padding: 0;
+      margin: 0;
+    }
+
+    *, :after, :before {
+      box-sizing: inherit;
+    }
+  </style>
+
+  <div data-role="content">
+    <slot></slot>
+  </div>
+</template>
+
+<script>
+  (function () {
+    /* globals document, customElements, Chefdoeurve */
+    const importDoc = document.currentScript.ownerDocument;
+
+    class ComponentToolbar extends Chefdoeurve.CustomElement {
+      static get observedAttributes() { return []; }
+
+      render() {
+        const template = importDoc.querySelector('template#component-card-toolbar');
+        const node = importDoc.importNode(template.content, true);
+        this.setNode(node);
+      }
+    }
+
+    customElements.define('component-toolbar', ComponentToolbar);
+  }());
+</script>

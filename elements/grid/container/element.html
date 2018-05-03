@@ -1,0 +1,60 @@
+<template id="grid-container">
+  <link href="" rel="stylesheet">
+  <style>
+    @media only screen and (min-width: 1264px) {
+      :host {
+        max-width: 1185px;
+      }
+    }
+
+    @media only screen and (min-width: 960px) {
+      :host {
+        max-width: 900px;
+      }
+    }
+
+    @media only screen and (min-width: 600px) {
+      :host {
+        max-width: 562.5px;
+      }
+    }
+
+    :host(*) {
+      flex: 1 1 100%;
+      width: 100%;
+      display: block;
+    }
+
+    :host-context([fluid]) {
+      max-width: 100%;
+    }
+  </style>
+
+  <slot></slot>
+</template>
+
+<script>
+  (function () {
+    /* globals document, customElements, Chefdoeurve */
+    const importDoc = document.currentScript.ownerDocument;
+
+    class GridContainer extends Chefdoeurve.CustomElement {
+      static get observedAttributes() { return []; }
+
+      getStyles() {
+        return {
+          margin: 'auto',
+          padding: '16px',
+        };
+      }
+
+      render() {
+        const template = importDoc.querySelector('template#grid-container');
+        const node = importDoc.importNode(template.content, true);
+        this.setNode(node);
+      }
+    }
+
+    customElements.define('grid-container', GridContainer);
+  }());
+</script>

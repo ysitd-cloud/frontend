@@ -1,0 +1,44 @@
+<link rel="import" href="../../base/base.html">
+
+<template id="app-frame">
+  <style>
+    :host div {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+
+      padding: 0;
+      margin: 0;
+
+      box-sizing: inherit;
+    }
+
+    :host([theme=light]) div {
+      background: #fafafa;
+      color: rgba(0,0,0,.87);
+    }
+  </style>
+  <div>
+    <slot></slot>
+  </div>
+</template>
+
+<script>
+  (function () {
+    /* globals document, customElements, Chefdoeurve */
+    const importDoc = document.currentScript.ownerDocument;
+
+    class AppFrame extends Chefdoeurve.CustomElement {
+      static get observedAttributes() { return []; }
+
+      render() {
+        const template = importDoc.querySelector('template#app-frame');
+        const node = importDoc.importNode(template.content, true);
+        this.setNode(node);
+      }
+    }
+
+    customElements.define('app-frame', AppFrame, { extends: 'div' });
+  }());
+
+</script>

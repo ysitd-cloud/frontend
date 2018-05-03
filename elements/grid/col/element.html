@@ -1,0 +1,50 @@
+<link href="../../base/base.html">
+
+<template id="grid-col">
+  <style>
+    @media screen and (min-width: 960px) {
+      :host([offset-md='3']) div {
+        margin-left: 25%;
+      }
+    }
+    @media screen and  (min-width: 960px) {
+      :host([md='6']) div {
+        flex-basis: 50%;
+        max-width: 50%;
+      }
+    }
+    @media screen and (min-width: 0) {
+      :host([xs='12']) div {
+        flex-basis: 100%;
+        max-width: 100%;
+      }
+    }
+
+    :host {
+      flex: 1 1 auto;
+    }
+  </style>
+
+  <div>
+    <slot></slot>
+  </div>
+</template>
+
+<script>
+  (function () {
+    /* globals document, customElements, Chefdoeurve */
+    const importDoc = document.currentScript.ownerDocument;
+
+    class GridCol extends Chefdoeurve.CustomElement {
+      static get observedAttributes() { return ['offset-md']; }
+
+      render() {
+        const template = importDoc.querySelector('template#grid-col');
+        const node = importDoc.importNode(template.content, true);
+        this.setNode(node);
+      }
+    }
+
+    customElements.define('grid-col', GridCol);
+  }());
+</script>

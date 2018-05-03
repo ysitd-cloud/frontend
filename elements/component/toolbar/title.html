@@ -1,0 +1,45 @@
+<link href="../../base/base.html" rel="import">
+
+<template id="component-toolbar-title">
+  <style>
+    :host {
+      margin-right: 16px;
+      margin-left: 16px;
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: .02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+  </style>
+
+  <slot></slot>
+</template>
+
+<script>
+  (function () {
+    /* globals document, customElements, Chefdoeurve */
+    const importDoc = document.currentScript.ownerDocument;
+
+    class ComponentToolbarTitle extends Chefdoeurve.CustomElement {
+      static get observedAttributes() { return []; }
+
+      render() {
+        const template = importDoc.querySelector('template#component-toolbar-title');
+        const node = importDoc.importNode(template.content, true);
+        this.setNode(node);
+      }
+
+      getStyles() {
+        return {
+          marginRight: '16px',
+          marginLeft: '16px',
+        };
+      }
+    }
+
+    customElements.define('component-toolbar-title', ComponentToolbarTitle);
+  }());
+</script>
