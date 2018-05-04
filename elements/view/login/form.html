@@ -2,7 +2,10 @@
 <link rel="import" href="../../grid/col/element.html">
 <link rel="import" href="../../component/card/element.html">
 <link rel="import" href="../../component/card/text.html">
+<link rel="import" href="../../component/card/action.html">
 <link rel="import" href="../../component/toolbar/element.html">
+<link rel="import" href="../../component/input/element.html">
+<link rel="import" href="../../component/btn/element.html">
 
 <template id="login-form">
   <style>
@@ -19,6 +22,10 @@
     component-card {
       height: auto;
     }
+
+    [data-role=error] {
+      color: #f44336!important;
+    }
   </style>
   <form method="post" action="/login">
     <grid-row wrap>
@@ -27,11 +34,32 @@
           <component-toolbar dark color="primary">
             <component-toolbar-title>Login</component-toolbar-title>
           </component-toolbar>
-          <component-card-text></component-card-text>
+          <component-card-text>
+            <span data-role="error"></span>
+            <component-input
+              color="primary"
+              label="Username"
+              name="username"
+              required
+              autofocus
+            ></component-input>
+            <component-input
+              type="password"
+              color="primary"
+              label="Password"
+              name="password"
+              required
+            ></component-input>
+          </component-card-text>
+          <component-card-action>
+            <component-btn type="submit" color="primary" raised flat>Login</component-btn>
+          </component-card-action>
         </component-card>
       </grid-col>
     </grid-row>
-    <input type="hidden" name="next" value="/" />
+    <input type="hidden" name="next" value="/">
+    <input type="hidden" name="username">
+    <input type="hidden" name="password">
   </form>
 </template>
 
@@ -40,13 +68,54 @@
     /* globals document, customElements, Chefdoeurve */
     const importDoc = document.currentScript.ownerDocument;
 
+    const errorMaps = {
+      not_match: 'Seems like some mistake in the password',
+      not_found: 'Seems like some mistake in the username',
+    };
+
     class LoginForm extends Chefdoeurve.CustomElement {
-      static get observedAttributes() { return ['next']; }
+      static get observedAttributes() { return ['next', 'error']; }
+
+      constructor() {
+        super();
+        this.username = '';
+        this.password = '';
+      }
 
       render() {
         const template = importDoc.querySelector('template#login-form');
         const node = importDoc.importNode(template.content, true);
         node.querySelector('input[name=next]').setAttribute('value', this.getAttribute('next'));
+
+        if (this.hasAttribute('error')) {
+          const error = this.getAttribute('error');
+          let message = 'Something go wrong';
+          if (error in errorMaps) {
+            message = errorMaps[error];
+          }
+
+          node.querySelector('span[data-role=error]').textContent = message;
+        }
+
+        const names = ['username', 'password'];
+
+        const fields = names.map(name => node.querySelector(`component-input[name=${name}]`));
+
+        names.forEach((name) => {
+          node.querySelector(`component-input[name=${name}]`).addEventListener('input', (e) => {
+            node.querySelector(`input[name=${name}]`).value = e.target.value;
+          });
+        });
+
+        Array.prototype.forEach.call(node.querySelectorAll('component-input,component-btn'), (ele) => {
+          ele.addEventListener('submit', () => {
+            const validate = fields.reduce((result, e) => result && e.valid, true);
+            if (validate) {
+              this.node.querySelector('form').submit();
+            }
+          });
+        });
+
         this.setNode(node);
       }
     }

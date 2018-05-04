@@ -1,10 +1,10 @@
-<link href="../../base/base.html">
+<link rel="import" href="../../base/base.html">
 
-<template id="component-card-text">
+<template id="component-card-action">
   <style>
     :host {
-      display: block;
-      width: 100%;
+      align-items: center;
+      display: flex;
     }
   </style>
 
@@ -16,24 +16,23 @@
     /* globals document, customElements, Chefdoeurve */
     const importDoc = document.currentScript.ownerDocument;
 
-    class ComponentCardText extends Chefdoeurve.CustomElement {
+    class ComponentCardAction extends Chefdoeurve.CustomElement {
       static get observedAttributes() { return []; }
 
       render() {
-        const template = importDoc.querySelector('template#component-card-text');
+        const template = importDoc.querySelector('template#component-card-action');
         const node = importDoc.importNode(template.content, true);
         this.setNode(node);
       }
 
       getStyles() {
         return {
-          width: '100%',
-          padding: '16px',
+          padding: '8px 4px',
         };
       }
     }
 
-    customElements.define('component-card-text', ComponentCardText);
+    customElements.define('component-card-action', ComponentCardAction);
   }());
 </script>
 

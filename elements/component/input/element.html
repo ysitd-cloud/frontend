@@ -1,0 +1,239 @@
+<link href="../../base/base.html">
+
+<template id="component-input">
+  <style>
+    :host {
+      display: flex;
+      flex: 1 1;
+      flex-wrap: wrap;
+      min-width: 24px;
+      position: relative;
+      width: 100%;
+      outline: none;
+      transition: box-shadow .3s cubic-bezier(.25,.8,.5,1);
+    }
+
+    :host([color=primary]) {
+      color: #44a148!important;
+    }
+
+    :host(.focus[color=primary]) label {
+      color: #44a148!important;
+    }
+
+    :host([required]) label:after {
+      content: "*";
+    }
+
+    :host(.focus[required]) label:after {
+      color: red;
+    }
+
+    label {
+      color: rgba(0,0,0,.54);
+      position: absolute;
+      top: 18px;
+      left: 0;
+      display: inline-block;
+      font-size: 16px;
+      line-height: 30px;
+      height: 30px;
+      max-width: 90%;
+      min-width: 0;
+      overflow: hidden;
+      pointer-events: none;
+      text-align: left;
+      text-overflow: ellipsis;
+      transform: translateZ(0);
+      transform-origin: top left;
+      transition: .4s cubic-bezier(.25,.8,.25,1);
+      white-space: nowrap;
+      width: 100%;
+      z-index: 0;
+    }
+
+    :host(.dirty) label {
+      transform: translate(0, -10px) scale(0.75)
+    }
+
+    :host(.focus) label {
+      opacity: 1;
+    }
+
+    [data-role=input] {
+      display: flex;
+      flex: 1 0 100%;
+      min-width: 0;
+      min-height: 30px;
+      border-radius: 4px 4px 0 0
+    }
+
+    :host(.focus) [data-role=input] {
+      border-color: inherit;
+    }
+
+    input {
+      color: rgba(0,0,0,.87);
+      box-shadow: none;
+      flex: 1;
+      height: 30px;
+      margin: 0;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 16px;
+      background-color: transparent;
+      border-style: none;
+      border-radius: 0;
+      border-bottom: 1px solid rgba(0,0,0,.54);
+    }
+
+    :host(:hover) input {
+      border-bottom-color: rgba(0,0,0,.65);
+    }
+
+    input:focus {
+      outline: none;
+    }
+
+    input:disabled {
+      pointer-events: none
+    }
+
+    :host([color=primary]) input {
+      caret-color: #44a148!important;
+    }
+
+    input::placeholder {
+      color: gray;
+    }
+
+    [data-role=ripple] {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      -webkit-transform: scaleX(0);
+      transform: scaleX(0);
+      transition: opacity 180ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1), opacity 180ms cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1), opacity 180ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      z-index: 2;
+    }
+
+    :host(.focus[color=primary]) input {
+      border-color: #44a148;
+    }
+
+    [data-role=detail] {
+      color: inherit;
+      display: flex;
+      padding-top: 4px;
+      flex: 1 0 100%;
+      font-size: 12px;
+      min-height: 26px;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+  </style>
+
+  <label></label>
+  <div data-role="input">
+    <input type="text">
+  </div>
+  <div data-role="detail"></div>
+</template>
+
+<script>
+  (function () {
+    /* globals document, customElements, Chefdoeurve, Event */
+    const importDoc = document.currentScript.ownerDocument;
+
+    class ComponentInput extends Chefdoeurve.CustomElement {
+      static get observedAttributes() {
+        return [
+          'label',
+          'required',
+          'autofocus',
+          'type',
+          'name',
+          'value',
+        ];
+      }
+
+      constructor() {
+        super();
+        this.input = null;
+      }
+
+      render() {
+        const template = importDoc.querySelector('template#component-input');
+        const node = importDoc.importNode(template.content, true);
+        node.querySelector('label').textContent = this.getAttribute('label');
+
+        this.configInput(node.querySelector('input'));
+
+        this.setNode(node);
+      }
+
+      configInput(input) {
+        this.input = input;
+        input.setAttribute('aria-label', this.getAttribute('label'));
+
+        const attributes = ['type', 'name', 'required', 'autofocus', 'value'];
+
+        attributes.forEach((attr) => {
+          if (this.hasAttribute(attr)) {
+            input.setAttribute(attr, this.getAttribute(attr));
+          }
+        });
+
+        input.addEventListener('focus', () => {
+          this.classList.add('dirty', 'focus');
+        });
+
+        input.addEventListener('blur', () => {
+          if (!input.value) {
+            this.classList.remove('dirty');
+          }
+          this.classList.remove('focus');
+        });
+
+        input.addEventListener('keydown', (e) => {
+          if (e.keyCode === 13 && this.valid) {
+            this.dispatchEvent(new Event('submit'));
+          } else {
+            input.focus();
+          }
+        });
+
+        input.addEventListener('input', () => {
+          this.dispatchEvent(new Event('input', {
+            bubbles: true,
+            cancelable: false,
+          }));
+        });
+      }
+
+      getStyles() {
+        return {
+          padding: '18px 0 0',
+        };
+      }
+
+      get value() {
+        return this.input.value;
+      }
+
+      get valid() {
+        return this.value || !this.hasAttribute('required');
+      }
+    }
+
+    customElements.define('component-input', ComponentInput);
+  }());
+</script>

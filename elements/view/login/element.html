@@ -23,7 +23,7 @@
   <app-frame theme="light">
     <main>
       <grid-container fluid>
-        <login-form></login-form>
+        <login-form next="/"></login-form>
       </grid-container>
     </main>
   </app-frame>
@@ -35,14 +35,19 @@
     const importDoc = document.currentScript.ownerDocument;
 
     class LoginView extends Chefdoeurve.CustomElement {
-      static get observedAttributes() { return ['next']; }
+      static get observedAttributes() { return ['next', 'error']; }
 
       render() {
         const template = importDoc.querySelector('template#login-view');
         const node = importDoc.importNode(template.content, true);
-        if (this.hasAttribute('next')) {
-          node.querySelector('login-form').setAttribute('next', this.getAttribute('next'));
-        }
+
+        const form = node.querySelector('login-form');
+        ['next', 'error'].forEach((attr) => {
+          if (this.hasAttribute(attr)) {
+            form.setAttribute(attr, this.getAttribute(attr));
+          }
+        });
+
         this.setNode(node);
       }
     }
