@@ -1,0 +1,48 @@
+<link rel="import" href="init.html">
+
+<script src="./virtual-dom.js"></script>
+
+<script>
+  (function () {
+    /* globals HTMLElement, Chefdoeurve, VirtualDom */
+
+    class VirtualElement extends HTMLElement {
+      constructor() {
+        super();
+        this.rootNode = null;
+        this.tree = null;
+        this.invokeLifeCycleHook('created');
+      }
+
+      connectedCallback() {
+        this.invokeLifeCycleHook('beforeMount');
+        this.tree = this.render();
+        this.rootNode = VirtualDom.createElement(this.tree);
+        this.appendChild(this.rootNode);
+        this.invokeLifeCycleHook('mounted');
+      }
+
+      attributeChangedCallback() {
+        this.invokeLifeCycleHook('beforeUpdate');
+        const tree = this.render();
+        const patches = VirtualDom.diff(this.tree, tree);
+        this.rootNode = VirtualDom.patch(this.rootNode, patches);
+        this.tree = tree;
+        this.invokeLifeCycleHook('updated');
+      }
+
+      disconnectedCallback() {
+        this.invokeLifeCycleHook('beforeDestroyed');
+        this.invokeLifeCycleHook('destroyed');
+      }
+
+      invokeLifeCycleHook(name) {
+        if (name in this && typeof this[name] === 'function') {
+          this[name].call(this);
+        }
+      }
+    }
+
+    Chefdoeurve.VirtualElement = VirtualElement;
+  }());
+</script>
