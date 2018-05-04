@@ -13,12 +13,12 @@
       box-sizing: inherit;
     }
 
-    :host([theme=light]) div {
+    :host([theme=light]) div, :host([theme=light]) .style-scope.app-frame {
       background: #fafafa;
       color: rgba(0,0,0,.87);
     }
   </style>
-  <div>
+  <div class="app-frame style-scope">
     <slot></slot>
   </div>
 </template>
