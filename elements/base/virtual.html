@@ -4,30 +4,37 @@
 
 <script>
   (function () {
-    /* globals HTMLElement, Chefdoeurve, VirtualDom */
+    /* globals HTMLElement, Chefdoeurve, VirtualDom, Text */
+
+    const { h } = VirtualDom;
 
     class VirtualElement extends HTMLElement {
       constructor() {
         super();
         this.rootNode = null;
         this.tree = null;
+        this.cloneChildren();
         this.invokeLifeCycleHook('created');
+      }
+
+      cloneChildren() {
+        this.renderChildren = Array.from(this.childNodes).map((node) => {
+          if (node instanceof Text) {
+            return new VirtualDom.VText(node.wholeText);
+          }
+          return node.cloneNode();
+        });
       }
 
       connectedCallback() {
         this.invokeLifeCycleHook('beforeMount');
-        this.tree = this.render();
-        this.rootNode = VirtualDom.createElement(this.tree);
-        this.appendChild(this.rootNode);
+        this.mountNode();
         this.invokeLifeCycleHook('mounted');
       }
 
       attributeChangedCallback() {
         this.invokeLifeCycleHook('beforeUpdate');
-        const tree = this.render();
-        const patches = VirtualDom.diff(this.tree, tree);
-        this.rootNode = VirtualDom.patch(this.rootNode, patches);
-        this.tree = tree;
+        this.mountNode();
         this.invokeLifeCycleHook('updated');
       }
 
@@ -40,6 +47,18 @@
         if (name in this && typeof this[name] === 'function') {
           this[name].call(this);
         }
+      }
+
+      mountNode() {
+        const tree = this.render(h, this.renderChildren);
+        if (this.rootNode) {
+          const patches = VirtualDom.diff(this.tree, tree);
+          this.rootNode = VirtualDom.patch(this.rootNode, patches);
+        } else {
+          this.rootNode = VirtualDom.create(tree);
+          this.appendChild(this.rootNode);
+        }
+        this.tree = tree;
       }
     }
 
