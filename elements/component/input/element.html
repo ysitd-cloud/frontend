@@ -13,11 +13,7 @@
       transition: box-shadow .3s cubic-bezier(.25,.8,.5,1);
     }
 
-    :host([color=primary]) {
-      color: #44a148!important;
-    }
-
-    :host(.focus[color=primary]) label {
+    :host([color=primary]), :host(.focus[color=primary]) label {
       color: #44a148!important;
     }
 
@@ -109,21 +105,6 @@
       color: gray;
     }
 
-    [data-role=ripple] {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      -webkit-transform: scaleX(0);
-      transform: scaleX(0);
-      transition: opacity 180ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
-      transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1), opacity 180ms cubic-bezier(0.4, 0, 0.2, 1);
-      transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1), opacity 180ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
-      opacity: 0;
-      z-index: 2;
-    }
-
     :host(.focus[color=primary]) input {
       border-color: #44a148;
     }
@@ -138,6 +119,10 @@
       overflow: hidden;
       position: relative;
       width: 100%;
+    }
+
+    :host([error]) {
+      background-color: currentColor;
     }
   </style>
 
