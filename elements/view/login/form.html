@@ -89,7 +89,7 @@
 
         if (this.hasAttribute('error')) {
           const error = this.getAttribute('error');
-          let message = 'Something go wrong';
+          let message = 'Seems like some mistake during login';
           if (error in errorMaps) {
             message = errorMaps[error];
           }
@@ -102,8 +102,9 @@
         const fields = names.map(name => node.querySelector(`component-input[name=${name}]`));
 
         names.forEach((name) => {
+          const input = node.querySelector(`input[name=${name}]`);
           node.querySelector(`component-input[name=${name}]`).addEventListener('input', (e) => {
-            node.querySelector(`input[name=${name}]`).value = e.target.value;
+            input.value = e.target.value;
           });
         });
 

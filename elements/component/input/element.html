@@ -13,7 +13,7 @@
       transition: box-shadow .3s cubic-bezier(.25,.8,.5,1);
     }
 
-    :host([color=primary]), :host(.focus[color=primary]) label {
+    :host([color=primary]), :host(.focus[color=primary]:not([error])) label {
       color: #44a148!important;
     }
 
@@ -42,7 +42,7 @@
       text-overflow: ellipsis;
       transform: translateZ(0);
       transform-origin: top left;
-      transition: .4s cubic-bezier(.25,.8,.25,1);
+      transition: .5s cubic-bezier(.25,.8,.25,1);
       white-space: nowrap;
       width: 100%;
       z-index: 0;
@@ -83,6 +83,7 @@
       border-style: none;
       border-radius: 0;
       border-bottom: 1px solid rgba(0,0,0,.54);
+      will-change: border-bottom-width;
     }
 
     :host(:hover) input {
@@ -107,6 +108,8 @@
 
     :host(.focus[color=primary]) input {
       border-color: #44a148;
+      border-bottom-width: 2px;
+      transform: scaleX();
     }
 
     [data-role=detail] {
@@ -121,8 +124,53 @@
       width: 100%;
     }
 
-    :host([error]) {
+    [data-role=message] {
+      display: none;
+    }
+
+    :host(.error) [data-role=message] {
+      display: block;
+    }
+
+    :host(.error)  input {
+      border-color: #ff5252 !important;
+    }
+
+    :host(.error) label {
+      color: #ff5252 !important;
+    }
+
+    :host(.error) [data-role=detail] {
+      color: #ff5252;
+    }
+
+    :host(.error) [data-role=detail]:before {
       background-color: currentColor;
+    }
+
+    :host(.error) [data-role=detail] > [data-role=message] {
+      color: inherit;
+      -webkit-transition: .3s cubic-bezier(.25,.8,.25,1);
+      transition: .3s cubic-bezier(.25,.8,.25,1);
+    }
+
+    :host(.error) [data-role=detail]:after {
+      background-color: currentColor;
+      color: inherit;
+      top: 0;
+      height: 2px;
+      -webkit-transform: scaleX(0);
+      transform: scaleX(0);
+      -webkit-transform-origin: center center 0;
+      transform-origin: center center 0;
+      width: 100%;
+      z-index: 1;
+
+      content: "";
+      position: absolute;
+      left: 0;
+      -webkit-transition: .3s cubic-bezier(.4,0,.2,1);
+      transition: .3s cubic-bezier(.4,0,.2,1);
     }
   </style>
 
@@ -130,7 +178,9 @@
   <div data-role="input">
     <input type="text">
   </div>
-  <div data-role="detail"></div>
+  <div data-role="detail">
+    <div data-role="message"></div>
+  </div>
 </template>
 
 <script>
@@ -160,13 +210,16 @@
         const node = importDoc.importNode(template.content, true);
         node.querySelector('label').textContent = this.getAttribute('label');
 
-        this.configInput(node.querySelector('input'));
+        this.input = node.querySelector('input');
+        this.errorField = node.querySelector('[data-role=detail] > [data-role=message]');
+
+        this.configInput(node);
 
         this.setNode(node);
       }
 
-      configInput(input) {
-        this.input = input;
+      configInput() {
+        const { input } = this;
         input.setAttribute('aria-label', this.getAttribute('label'));
 
         const attributes = ['type', 'name', 'required', 'autofocus', 'value'];
@@ -189,19 +242,33 @@
         });
 
         input.addEventListener('keydown', (e) => {
-          if (e.keyCode === 13 && this.valid) {
-            this.dispatchEvent(new Event('submit'));
-          } else {
-            input.focus();
+          if (e.keyCode === 13) {
+            if (this.valid) {
+              this.dispatchEvent(new Event('submit'));
+            } else {
+              input.focus();
+              this.classList.add('error');
+              this.errorMessage();
+            }
           }
         });
 
         input.addEventListener('input', () => {
+          if (this.valid) {
+            this.classList.remove('error');
+          } else {
+            this.classList.add('error');
+            this.errorMessage();
+          }
           this.dispatchEvent(new Event('input', {
             bubbles: true,
             cancelable: false,
           }));
         });
+      }
+
+      errorMessage() {
+        this.errorField.textContent = 'This field is required';
       }
 
       getStyles() {
