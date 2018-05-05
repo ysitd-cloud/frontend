@@ -9,7 +9,6 @@ define([
   '../vnode/is-thunk.js',
   '../vnode/handle-thunk.js',
   './diff-props.js',
-  '../vnode/vpatch.js',
 ], (
   isArray,
   VPatch,
