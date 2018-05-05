@@ -13,7 +13,7 @@ define(() => {
   };
 
   EvHook.prototype.unhook = function (node) {
-    node.removeListener(this.event, this.handler);
+    node.removeEventListener(this.event, this.handler);
   };
 
   return EvHook;
