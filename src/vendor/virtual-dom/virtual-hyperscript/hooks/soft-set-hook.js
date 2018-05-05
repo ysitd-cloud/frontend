@@ -1,4 +1,4 @@
-define((require, exports, module) => {
+define(() => {
   function SoftSetHook(value) {
     if (!(this instanceof SoftSetHook)) {
       return new SoftSetHook(value);
@@ -13,5 +13,5 @@ define((require, exports, module) => {
     }
   };
 
-  module.exports = SoftSetHook;
+  return SoftSetHook;
 });

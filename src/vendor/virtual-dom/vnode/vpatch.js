@@ -1,6 +1,4 @@
-define((require, exports, module) => {
-  const version = require('./version.js');
-
+define(['./version.js'], (version) => {
   function VirtualPatch(type, vNode, patch) {
     this.type = Number(type);
     this.vNode = vNode;
@@ -22,5 +20,5 @@ define((require, exports, module) => {
   VirtualPatch.REMOVE = 7;
   VirtualPatch.THUNK = 8;
 
-  module.exports = VirtualPatch;
+  return VirtualPatch;
 });

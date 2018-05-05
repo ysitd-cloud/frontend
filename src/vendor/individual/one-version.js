@@ -1,6 +1,4 @@
-define((require, exports, module) => {
-  const Individual = require('./index.js');
-
+define(['./index.js'], (Individual) => {
   function OneVersion(moduleName, version, defaultValue) {
     const key = `__INDIVIDUAL_ONE_VERSION_${moduleName}`;
     const enforceKey = `${key}_ENFORCE_SINGLETON`;
@@ -16,5 +14,5 @@ define((require, exports, module) => {
     return Individual(key, defaultValue);
   }
 
-  module.exports = OneVersion;
+  return OneVersion;
 });

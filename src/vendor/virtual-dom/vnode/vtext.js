@@ -1,5 +1,4 @@
 define(['./version.js'], (version) => {
-
   function VirtualText(text) {
     this.text = String(text);
   }

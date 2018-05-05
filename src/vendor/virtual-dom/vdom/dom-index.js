@@ -3,7 +3,7 @@
 // the in-order tree indexing to eliminate recursion down certain branches.
 // We only recurse into a DOM node if we know that it contains a child of
 // interest.
-define((require, exports, module) => {
+define(() => {
   const noChild = {};
 
   // Binary search for an index in the interval [left, right]
@@ -49,7 +49,7 @@ define((require, exports, module) => {
       const vChildren = tree.children;
 
       if (vChildren) {
-        const {childNodes} = rootNode;
+        const { childNodes } = rootNode;
 
         for (let i = 0; i < tree.children.length; i += 1) {
           // eslint-disable-next-line no-param-reassign
@@ -86,5 +86,5 @@ define((require, exports, module) => {
   }
 
 
-  module.exports = domIndex;
+  return domIndex;
 });

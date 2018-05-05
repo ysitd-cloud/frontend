@@ -1,7 +1,4 @@
-define((require, exports, module) => {
-  const isObject = require('../../is-object/index.js');
-  const isHook = require('../vnode/is-vhook.js');
-
+define(['../../is-object/index.js', '../vnode/is-vhook.js'], (isObject, isHook) => {
   function getPrototype(value) {
     if (Object.getPrototypeOf) {
       return Object.getPrototypeOf(value);
@@ -63,5 +60,5 @@ define((require, exports, module) => {
   }
 
 
-  module.exports = diffProps;
+  return diffProps;
 });

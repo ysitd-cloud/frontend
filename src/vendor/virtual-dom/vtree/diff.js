@@ -9,6 +9,7 @@ define([
   '../vnode/is-thunk.js',
   '../vnode/handle-thunk.js',
   './diff-props.js',
+  '../vnode/vpatch.js',
 ], (
   isArray,
   isVNode,
@@ -17,6 +18,7 @@ define([
   isThunk,
   handleThunk,
   diffProps,
+  VPatch,
 ) => {
   function diff(a, b) {
     const patch = { a };
@@ -165,7 +167,7 @@ define([
     return false;
   }
 
-// Create a sub-patch for thunks
+  // Create a sub-patch for thunks
   function thunks(a, b, patch, index) {
     const nodes = handleThunk(a, b);
     const thunkPatch = diff(nodes.a, nodes.b);
@@ -175,8 +177,8 @@ define([
   }
 
 
-// Patch records for all destroyed widgets must be added because we need
-// a DOM node reference for the destroy function
+  // Patch records for all destroyed widgets must be added because we need
+  // a DOM node reference for the destroy function
   function destroyWidgets(vNode, patch, index) {
     if (isWidget(vNode)) {
       if (typeof vNode.destroy === 'function') {
@@ -215,7 +217,7 @@ define([
     return result;
   }
 
-// Execute hooks when two nodes are identical
+  // Execute hooks when two nodes are identical
   function unhook(vNode, patch, index) {
     if (isVNode(vNode)) {
       if (vNode.hooks) {
@@ -280,7 +282,7 @@ define([
     };
   }
 
-// List diff, naive left to right reordering
+  // List diff, naive left to right reordering
   function reorder(aChildren, bChildren) {
     // O(M) time, O(M) memory
     const bChildIndex = keyIndex(bChildren);
@@ -315,7 +317,7 @@ define([
 
     // Iterate through a and match a node in b
     // O(N) time,
-    for (let i = 0; i < aChildren.length; i++) {
+    for (let i = 0; i < aChildren.length; i += 1) {
       const aItem = aChildren[i];
       let itemIndex;
 
@@ -352,7 +354,7 @@ define([
 
     // Iterate through b and append any new keys
     // O(M) time
-    for (let j = 0; j < bChildren.length; j++) {
+    for (let j = 0; j < bChildren.length; j += 1) {
       const newItem = bChildren[j];
 
       if (newItem.key) {

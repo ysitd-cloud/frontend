@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "browser-sync start --config bs-config.js",
     "build": "node build/build",
-    "lint": "eslint --ext js,html ."
+    "lint": "eslint --ext js ."
   },
   "dependencies": {
     "virtual-dom": "^2.1.1"

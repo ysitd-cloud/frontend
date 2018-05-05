@@ -1,11 +1,10 @@
-define((require, exports, module) => {
-  const applyProperties = require('./apply-properties.js');
-
-  const isVNode = require('../vnode/is-vnode.js');
-  const isVText = require('../vnode/is-vtext.js');
-  const isWidget = require('../vnode/is-widget.js');
-  const handleThunk = require('../vnode/handle-thunk.js');
-
+define([
+  './apply-properties.js',
+  '../vnode/is-vnode.js',
+  '../vnode/is-vtext.js',
+  '../vnode/is-widget.js',
+  '../vnode/handle-thunk.js',
+], (applyProperties, isVNode, isVText, isWidget, handleThunk) => {
   function createElement(vnode, opts) {
     const doc = opts ? opts.document || document : document;
     const warn = opts ? opts.warn : null;
@@ -31,9 +30,9 @@ define((require, exports, module) => {
     const props = vnode.properties;
     applyProperties(node, props);
 
-    const {children} = vnode;
+    const { children } = vnode;
 
-    for (let i = 0; i < children.length; i++) {
+    for (let i = 0; i < children.length; i += 1) {
       const childNode = createElement(children[i], opts);
       if (childNode) {
         node.appendChild(childNode);
@@ -43,5 +42,5 @@ define((require, exports, module) => {
     return node;
   }
 
-  module.exports = createElement;
+  return createElement;
 });

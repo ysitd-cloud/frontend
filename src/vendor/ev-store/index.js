@@ -1,6 +1,4 @@
-define((require, exports, module) => {
-  const OneVersionConstraint = require('../individual/one-version.js');
-
+define(['../individual/one-version.js'], (OneVersionConstraint) => {
   const MY_VERSION = '7';
   OneVersionConstraint('ev-store', MY_VERSION);
 
@@ -17,5 +15,5 @@ define((require, exports, module) => {
     return hash;
   }
 
-  module.exports = EvStore;
+  return EvStore;
 });

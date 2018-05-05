@@ -1,6 +1,4 @@
-define((require, exports, module) => {
-  const EvStore = require('../../../ev-store/index.js');
-
+define(['../../../ev-store/index.js'], (EvStore) => {
   function EvHook(value) {
     if (!(this instanceof EvHook)) {
       return new EvHook(value);
@@ -23,5 +21,5 @@ define((require, exports, module) => {
     es[propName] = undefined;
   };
 
-  module.exports = EvHook;
+  return EvHook;
 });

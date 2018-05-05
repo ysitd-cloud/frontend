@@ -42,7 +42,7 @@ define([
       }
     }
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < count; i += 1) {
       const child = children[i];
       if (isVNode(child)) {
         descendants += child.count || 0;

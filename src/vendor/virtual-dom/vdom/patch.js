@@ -11,7 +11,6 @@ define([
   domIndex,
   patchOp,
 ) => {
-
   function applyPatch(rootNode, domNode, patchList, renderOptions) {
     if (!domNode) {
       return rootNode;
@@ -20,7 +19,7 @@ define([
     let newNode;
 
     if (isArray(patchList)) {
-      for (let i = 0; i < patchList.length; i++) {
+      for (let i = 0; i < patchList.length; i += 1) {
         newNode = patchOp(patchList[i], domNode, renderOptions);
 
         if (domNode === rootNode) {
@@ -64,7 +63,7 @@ define([
       renderOptions.document = ownerDocument;
     }
 
-    for (let i = 0; i < indices.length; i++) {
+    for (let i = 0; i < indices.length; i += 1) {
       const nodeIndex = indices[i];
       rootNode = applyPatch(
         rootNode,

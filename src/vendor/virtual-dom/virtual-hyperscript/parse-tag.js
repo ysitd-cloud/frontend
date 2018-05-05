@@ -1,6 +1,4 @@
-define((require, exports, module) => {
-  const split = require('../../browser-split/index.js');
-
+define(['../../browser-split/index.js'], (split) => {
   const classIdSplit = /([.#]?[a-zA-Z0-9\u007F-\uFFFF_:-]+)/;
   const notClassId = /^\.|#/;
 
@@ -19,12 +17,11 @@ define((require, exports, module) => {
       tagName = 'DIV';
     }
 
-    let classes,
-      part,
-      type,
-      i;
+    let classes;
+    let part;
+    let type;
 
-    for (i = 0; i < tagParts.length; i += 1) {
+    for (let i = 0; i < tagParts.length; i += 1) {
       part = tagParts[i];
 
       if (!part) {
@@ -55,5 +52,5 @@ define((require, exports, module) => {
     return props.namespace ? tagName : tagName.toUpperCase();
   }
 
-  module.exports = parseTag;
+  return parseTag;
 });

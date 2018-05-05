@@ -1,9 +1,9 @@
-define((require, exports, module) => {
-  const isVNode = require('./is-vnode.js');
-  const isVText = require('./is-vtext.js');
-  const isWidget = require('./is-widget.js');
-  const isThunk = require('./is-thunk.js');
-
+define([
+  './is-vnode.js',
+  './is-vtext.js',
+  './is-widget.js',
+  './is-thunk.js',
+], (isVNode, isVText, isWidget, isThunk) => {
   function renderThunk(thunk, previous) {
     let renderedThunk = thunk.vnode;
 
@@ -40,5 +40,5 @@ define((require, exports, module) => {
     };
   }
 
-  module.exports = handleThunk;
+  return handleThunk;
 });

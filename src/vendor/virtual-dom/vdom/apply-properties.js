@@ -1,7 +1,4 @@
-define((require, exports, module) => {
-  const isObject = require('../../is-object/index.js');
-  const isHook = require('../vnode/is-vhook.js');
-
+define(['../../is-object/index.js', '../vnode/is-vhook.js'], (isObject, isHook) => {
   function removeProperty(node, propName, propValue, previous) {
     if (previous) {
       const previousValue = previous[propName];
@@ -99,5 +96,5 @@ define((require, exports, module) => {
     }
   }
 
-  module.exports = applyProperties;
+  return applyProperties;
 });

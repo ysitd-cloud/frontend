@@ -8,7 +8,6 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
       this.tree = null;
       this.cloneChildren();
       this.invokeLifeCycleHook('created');
-      console.debug('construct');
     }
 
     cloneChildren() {
@@ -21,14 +20,12 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
     }
 
     connectedCallback() {
-      console.debug('connectedCallback');
       this.invokeLifeCycleHook('beforeMount');
       this.mountNode();
       this.invokeLifeCycleHook('mounted');
     }
 
     attributeChangedCallback() {
-      console.debug('attributeChangedCallback');
       this.invokeLifeCycleHook('beforeUpdate');
       this.mountNode();
       this.invokeLifeCycleHook('updated');
@@ -46,9 +43,7 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
     }
 
     mountNode() {
-      console.debug('mountNode');
       const tree = this.render(h, this.renderChildren);
-      console.debug(tree);
       if (this.rootNode) {
         const patches = VirtualDom.diff(this.tree, tree);
         this.rootNode = VirtualDom.patch(this.rootNode, patches);

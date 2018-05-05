@@ -1,6 +1,4 @@
-define((require, exports, module) => {
-  const isWidget = require('../vnode/is-widget.js');
-
+define(['../vnode/is-widget.js'], (isWidget) => {
   function updateWidget(a, b) {
     if (isWidget(a) && isWidget(b)) {
       if ('name' in a && 'name' in b) {
@@ -12,5 +10,5 @@ define((require, exports, module) => {
     return false;
   }
 
-  module.exports = updateWidget;
+  return updateWidget;
 });

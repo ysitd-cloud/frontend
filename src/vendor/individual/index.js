@@ -1,4 +1,4 @@
-define((require, exports, module) => {
+define(() => {
   function Individual(key, value) {
     if (key in window) {
       return window[key];
@@ -9,5 +9,5 @@ define((require, exports, module) => {
     return value;
   }
 
-  module.exports = Individual;
+  return Individual;
 });
