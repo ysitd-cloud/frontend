@@ -1,10 +1,17 @@
 {
+  "env": {
+    "browser": true,
+    "amd": true
+  },
   "root": true,
   "extends": "airbnb-base",
   "plugins": ["html"],
   // add your custom rules here
   "rules": {
     "class-methods-use-this": "off",
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }],
+    "import/no-amd": "off",
+    "no-restricted-syntax": "warn",
+    "guard-for-in": "warn"
   }
 }

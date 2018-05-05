@@ -1,118 +1,29 @@
 <link rel="import" href="../../base/base.html">
 
-<template id="component-btn">
-  <style>
-    :host button {
-      border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
-      border-width: 1px;
-      align-items: center;
-      border-radius: 2px;
-      display: inline-flex;
-      height: 36px;
-      flex: 0 1 auto;
-      font-size: 14px;
-      font-weight: 500;
-      justify-content: center;
-      margin: 6px 8px;
-      min-width: 88px;
-      outline: 0;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: .3s cubic-bezier(.25,.8,.5,1),color 1ms;
-      position: relative;
-      vertical-align: middle;
-      user-select: none;
-      color: rgba(0,0,0,.87);
-      -webkit-appearance: button;
-      cursor: pointer;
-      border-style: none;
-      overflow: visible;
-      padding: 8px 4px;
-    }
-
-    :host([color=primary]) button {
-      color: #44a148!important;
-    }
-
-    :host([raised]) button {
-      will-change: box-shadow;
-      box-shadow: 0 1px 5px rgba(0,0,0,.2), 0 2px 2px rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12);
-    }
-
-    :host([flat]) button {
-      background-color: transparent!important;
-      box-shadow: none!important;
-    }
-
-    [data-role=content] {
-      align-items: center;
-      border-radius: inherit;
-      color: inherit;
-      display: flex;
-      height: 100%;
-      flex: 1 0 auto;
-      justify-content: center;
-      margin: 0 auto;
-      padding: 0 16px;
-      transition: .3s cubic-bezier(.25,.8,.5,1);
-      white-space: nowrap;
-    }
-
-    [data-role=content]:before {
-      border-radius: inherit;
-      color: inherit;
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      opacity: .12;
-      transition: .3s cubic-bezier(.25,.8,.5,1);
-      width: 100%;
-    }
-
-    button:hover [data-role=content]:before {
-      background-color: currentColor;
-    }
-  </style>
-
-  <button>
-    <div data-role="content">
-      <slot></slot>
-    </div>
-  </button>
-</template>
-
 <script>
   (function () {
-    /* globals document, customElements, Chefdoeurve, Event */
-    const importDoc = document.currentScript.ownerDocument;
+    /* globals customElements, Chefdoeurve, document */
 
-    class ComponentBtn extends Chefdoeurve.CustomElement {
+    const { baseURI } = document.currentScript;
+
+    class ComponentBtn extends Chefdoeurve.VirtualElement {
       static get observedAttributes() {
         return [
           'type',
         ];
       }
 
-      render() {
-        const template = importDoc.querySelector('template#component-btn');
-        const node = importDoc.importNode(template.content, true);
+      render(h, children) {
+        return h(
+          'button',
+          h('div', {
+            'data-role': 'content',
+          }, children),
+        );
+      }
 
-        const btn = node.querySelector('button');
-
-        if (this.hasAttribute('type')) {
-          const type = this.getAttribute('type');
-          btn.setAttribute('type', type);
-
-          if (type === 'submit') {
-            btn.addEventListener('click', () => {
-              this.dispatchEvent(new Event('submit'));
-            });
-          }
-        }
-
-        this.setNode(node);
+      mounted() {
+        this.importStyleSheet(baseURI, './style.css');
       }
     }
 

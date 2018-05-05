@@ -1,12 +1,20 @@
 <link rel="import" href="init.html">
 
 <script src="./virtual-dom.js"></script>
+<script src="./path.js"></script>
 
 <script>
   (function () {
-    /* globals HTMLElement, Chefdoeurve, VirtualDom, Text */
+    /* globals HTMLElement, Chefdoeurve, VirtualDom, Text, path, document */
 
     const { h } = VirtualDom;
+    const head = document.getElementsByTagName('head')[0];
+
+    function parseUrl(href) {
+      const l = document.createElement('a');
+      l.href = href;
+      return l;
+    }
 
     class VirtualElement extends HTMLElement {
       constructor() {
@@ -15,24 +23,29 @@
         this.tree = null;
         this.cloneChildren();
         this.invokeLifeCycleHook('created');
+        console.debug('construct');
       }
 
       cloneChildren() {
-        this.renderChildren = Array.from(this.childNodes).map((node) => {
+        this.renderChildren = [];
+        this.childNodes.forEach((node) => {
+          console.log(node);
           if (node instanceof Text) {
-            return new VirtualDom.VText(node.wholeText);
+            this.renderChildren.push(new VirtualDom.VText(node.wholeText));
           }
-          return node.cloneNode();
+          this.renderChildren.push(node.cloneNode());
         });
       }
 
       connectedCallback() {
+        console.debug('connectedCallback');
         this.invokeLifeCycleHook('beforeMount');
         this.mountNode();
         this.invokeLifeCycleHook('mounted');
       }
 
       attributeChangedCallback() {
+        console.debug('attributeChangedCallback');
         this.invokeLifeCycleHook('beforeUpdate');
         this.mountNode();
         this.invokeLifeCycleHook('updated');
@@ -50,6 +63,7 @@
       }
 
       mountNode() {
+        console.debug('mountNode');
         const tree = this.render(h, this.renderChildren);
         if (this.rootNode) {
           const patches = VirtualDom.diff(this.tree, tree);
@@ -59,6 +73,16 @@
           this.appendChild(this.rootNode);
         }
         this.tree = tree;
+      }
+
+      importStyleSheet(base, importPath) {
+        const url = parseUrl(base);
+        const href = path.join(path.dirname(url.pathname), importPath);
+
+        const link = document.createElement('link');
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('href', `${url.protocol}//${url.host}/${href}`);
+        head.appendChild(link);
       }
     }
 
