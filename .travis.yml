@@ -11,3 +11,4 @@ cache:
 
 script:
   - yarn lint
+  - yarn build
