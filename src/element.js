@@ -1,6 +1,27 @@
 define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
   const { h } = VirtualDom;
 
+  function cloneChildren(ele) {
+    return Array.from(ele.childNodes).map((node) => {
+      if (node instanceof Text) {
+        return node.wholeText;
+        // eslint-disable-next-line no-use-before-define
+      } else if (node instanceof VirtualElement) {
+        return node.tree;
+      }
+
+      const attributes = {};
+
+      if (node.hasAttributes()) {
+        Array.from(node.attributes).forEach((attr) => {
+          attributes[attr.name] = attr.value;
+        });
+      }
+
+      return h(node.tagName, attributes, cloneChildren(node));
+    });
+  }
+
   class VirtualElement extends HTMLElement {
     constructor() {
       super();
@@ -11,12 +32,7 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
     }
 
     cloneChildren() {
-      this.renderChildren = Array.from(this.childNodes).map((node) => {
-        if (node instanceof Text) {
-          return node.wholeText;
-        }
-        return node.cloneNode();
-      });
+      this.renderChildren = cloneChildren(this);
     }
 
     connectedCallback() {
