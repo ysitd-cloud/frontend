@@ -10,30 +10,10 @@
 <component-btn type="submit" color="primary" raised flat>Login</component-btn>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-loader.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.21.3/system.js"></script>
+<script src="./config.js"></script>
 <script>
-  window.define = SystemJS.amdDefine;
-  window.requirejs = SystemJS.amdRequire;
-  // window.require = SystemJS.amdRequire;
-  /* globals SystemJS */
-  SystemJS.config({
-    baseURI: '/',
-    map: {
-      css: './css.js',
-    },
-    meta: {
-      '*.css': {
-        loader: 'css',
-      },
-      '*.js': {
-        scriptLoad: true,
-      },
-    },
-    packages: {
-      'vendor/*': {
-        defaultExtension: 'js',
-      },
-    },
-  });
+  /* globals SystemJS, configSystemJs */
+  SystemJS.config(configSystemJs('/'));
   SystemJS.import('./component/btn/element.js');
 </script>
 </body>
