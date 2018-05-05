@@ -1,24 +1,19 @@
-define(['../../../ev-store/index.js'], (EvStore) => {
-  function EvHook(value) {
+define(() => {
+  function EvHook(event, handler) {
     if (!(this instanceof EvHook)) {
-      return new EvHook(value);
+      return new EvHook(event, handler);
     }
 
-    this.value = value;
+    this.event = event;
+    this.handler = handler;
   }
 
-  EvHook.prototype.hook = function (node, propertyName) {
-    const es = EvStore(node);
-    const propName = propertyName.substr(3);
-
-    es[propName] = this.value;
+  EvHook.prototype.hook = function (node) {
+    node.addEventListener(this.event, this.handler);
   };
 
-  EvHook.prototype.unhook = function (node, propertyName) {
-    const es = EvStore(node);
-    const propName = propertyName.substr(3);
-
-    es[propName] = undefined;
+  EvHook.prototype.unhook = function (node) {
+    node.removeListener(this.event, this.handler);
   };
 
   return EvHook;

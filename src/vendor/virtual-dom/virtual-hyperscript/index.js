@@ -25,6 +25,8 @@ define(
     softSetHook,
     evHook,
   ) => {
+    const eventListenerRegex = /^on[A-Z]/;
+
     function isChild(x) {
       return isVNode(x) || isVText(x) || isWidget(x) || isVThunk(x);
     }
@@ -90,9 +92,9 @@ define(
             continue;
           }
 
-          if (propName.substr(0, 3) === 'ev-') {
+          if (eventListenerRegex.test(propName)) {
           // add ev-foo support
-            props[propName] = evHook(value);
+            props[propName] = evHook(propName.substr(2).toLowerCase(), value);
           }
         }
       }
