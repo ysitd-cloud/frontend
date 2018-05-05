@@ -6,7 +6,7 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
       if (node instanceof Text) {
         return node.wholeText;
         // eslint-disable-next-line no-use-before-define
-      } else if (node instanceof VirtualElement) {
+      } else if (node instanceof StatelessElement) {
         return node.tree;
       }
 
@@ -22,7 +22,7 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
     });
   }
 
-  class VirtualElement extends HTMLElement {
+  class StatelessElement extends HTMLElement {
     constructor() {
       super();
       this.rootNode = null;
@@ -42,6 +42,10 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
     }
 
     attributeChangedCallback() {
+      this.updateElement();
+    }
+
+    updateElement() {
       this.invokeLifeCycleHook('beforeUpdate');
       this.mountNode();
       this.invokeLifeCycleHook('updated');
@@ -60,6 +64,14 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
 
     mountNode() {
       const tree = this.render(h, this.renderChildren);
+      if (Array.isArray(tree)) {
+        this.mountMultiNode(tree);
+      } else {
+        this.mountSingleNode(tree);
+      }
+    }
+
+    mountSingleNode(tree) {
       if (this.rootNode) {
         const patches = VirtualDom.diff(this.tree, tree);
         this.rootNode = VirtualDom.patch(this.rootNode, patches);
@@ -72,7 +84,21 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
       }
       this.tree = tree;
     }
+
+    mountMultiNode(trees) {
+      if (this.rootNode) {
+        const patches = trees.map((tree, idx) => VirtualDom.diff(this.tree[idx], tree));
+        this.rootNode = patches.map((patch, idx) => VirtualDom.patch(this.rootNode[idx], patch));
+      } else {
+        while (this.firstChild) {
+          this.removeChild(this.firstChild);
+        }
+        this.rootNode = trees.map(tree => VirtualDom.create(tree));
+        this.rootNode.forEach(node => this.appendChild(node));
+      }
+      this.tree = trees;
+    }
   }
 
-  return VirtualElement;
+  return StatelessElement;
 });

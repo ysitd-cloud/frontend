@@ -1,5 +1,5 @@
-define(['../../element.js', './style.css'], (VirtualElement) => {
-  class ComponentBtn extends VirtualElement {
+define(['../../stateless.js', './style.css'], (StatelessElement) => {
+  class ComponentBtn extends StatelessElement {
     static get is() {
       return 'component-btn';
     }
