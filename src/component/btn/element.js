@@ -1,5 +1,9 @@
 define(['../../element.js', './style.css'], (VirtualElement) => {
   class ComponentBtn extends VirtualElement {
+    static get is() {
+      return 'component-btn';
+    }
+
     static get observedAttributes() {
       return [
         'type',
@@ -20,5 +24,5 @@ define(['../../element.js', './style.css'], (VirtualElement) => {
     }
   }
 
-  customElements.define('component-btn', ComponentBtn);
+  customElements.define(ComponentBtn.is, ComponentBtn);
 });
