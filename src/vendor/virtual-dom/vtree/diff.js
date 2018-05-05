@@ -12,13 +12,13 @@ define([
   '../vnode/vpatch.js',
 ], (
   isArray,
+  VPatch,
   isVNode,
   isVText,
   isWidget,
   isThunk,
   handleThunk,
   diffProps,
-  VPatch,
 ) => {
   function diff(a, b) {
     const patch = { a };
