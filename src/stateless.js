@@ -1,4 +1,4 @@
-define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
+define(['./vendor/virtual-dom/index.js', './global.css'], (VirtualDom) => {
   const { h } = VirtualDom;
 
   function convertAttributes(attributes) {
