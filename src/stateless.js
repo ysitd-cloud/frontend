@@ -1,12 +1,10 @@
-define(['./vendor/virtual-dom/index.js', './global.css'], (VirtualDom) => {
+define([
+  './vendor/virtual-dom/index.js',
+  './vendor/virtual-dom/vnode/vtext.js',
+  './attribute.js',
+  './global.css',
+], (VirtualDom, VText, convertAttributes) => {
   const { h } = VirtualDom;
-
-  function convertAttributes(attributes) {
-    return Array.from(attributes).reduce((props, attr) => {
-      props[attr.name] = attr.value;
-      return props;
-    }, {});
-  }
 
   function cloneChildren(ele) {
     return Array.from(ele.childNodes).map((node) => {
@@ -96,7 +94,7 @@ define(['./vendor/virtual-dom/index.js', './global.css'], (VirtualDom) => {
         while (this.firstChild) {
           this.removeChild(this.firstChild);
         }
-        this.rootNode = trees.map(tree => VirtualDom.create(tree));
+        this.rootNode = trees.map(tree => VirtualDom.create(typeof tree === 'string' ? new VText(tree) : tree));
         this.rootNode.forEach(node => this.appendChild(node));
       }
       this.tree = trees;

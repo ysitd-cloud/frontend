@@ -8,6 +8,7 @@ function configSystemJs(baseURI) {
     baseURI,
     map: {
       css: './css.js',
+      immutable: 'https://cdnjs.cloudflare.com/ajax/libs/immutable/3.8.2/immutable.min.js',
     },
     meta: {
       '*.css': {
