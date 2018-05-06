@@ -1,6 +1,13 @@
 define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
   const { h } = VirtualDom;
 
+  function convertAttributes(attributes) {
+    return Array.from(attributes).reduce((props, attr) => {
+      props[attr.name] = attr.value;
+      return props;
+    }, {});
+  }
+
   function cloneChildren(ele) {
     return Array.from(ele.childNodes).map((node) => {
       if (node instanceof Text) {
@@ -10,13 +17,7 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
         return node.tree;
       }
 
-      const attributes = {};
-
-      if (node.hasAttributes()) {
-        Array.from(node.attributes).forEach((attr) => {
-          attributes[attr.name] = attr.value;
-        });
-      }
+      const attributes = convertAttributes(node.attributes);
 
       return h(node.tagName, attributes, cloneChildren(node));
     });
@@ -25,6 +26,7 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
   class StatelessElement extends HTMLElement {
     constructor() {
       super();
+      this.props = convertAttributes(this.attributes);
       this.rootNode = null;
       this.tree = null;
       this.cloneChildren();
@@ -41,7 +43,8 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
       this.invokeLifeCycleHook('mounted');
     }
 
-    attributeChangedCallback() {
+    attributeChangedCallback(name, value) {
+      this.props[name] = value;
       this.updateElement();
     }
 
