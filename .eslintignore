@@ -2,3 +2,4 @@ build/*.js
 config/*.js
 static
 jspm_packages
+dist
