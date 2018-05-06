@@ -4,6 +4,17 @@ define(['../../stateful.js', './style.css'], (StatefulElement) => {
       return 'component-input';
     }
 
+    static get observedAttributes() {
+      return [
+        'label',
+        'required',
+        'autofocus',
+        'type',
+        'name',
+        'value',
+      ];
+    }
+
     constructor() {
       super();
       this.state = {
