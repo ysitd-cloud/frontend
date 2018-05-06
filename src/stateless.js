@@ -43,7 +43,7 @@ define(['./vendor/virtual-dom/index.js'], (VirtualDom) => {
       this.invokeLifeCycleHook('mounted');
     }
 
-    attributeChangedCallback(name, value) {
+    attributeChangedCallback(name, _, value) {
       this.props[name] = value;
       this.updateElement();
     }
