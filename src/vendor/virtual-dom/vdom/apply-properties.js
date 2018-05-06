@@ -91,7 +91,11 @@ define(['../../is-object/index.js', '../vnode/is-vhook.js'], (isObject, isHook) 
       } else if (isObject(propValue)) {
         patchObject(node, props, previous, propName, propValue);
       } else {
-        node.setAttribute(propName, propValue);
+        if (typeof propValue !== 'boolean') {
+          node.setAttribute(propName, propValue);
+        } else {
+          node.setAttribute(propName, propName);
+        }
       }
     }
   }
