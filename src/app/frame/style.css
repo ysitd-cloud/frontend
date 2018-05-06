@@ -1,0 +1,15 @@
+app-frame div {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+
+  padding: 0;
+  margin: 0;
+
+  box-sizing: inherit;
+}
+
+app-frame[theme=light] div {
+  background: #fafafa;
+  color: rgba(0,0,0,.87);
+}
