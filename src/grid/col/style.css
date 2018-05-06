@@ -1,0 +1,23 @@
+@media screen and (min-width: 960px) {
+  grid-col[offset-md='3'] {
+    margin-left: 25%;
+  }
+}
+
+@media screen and  (min-width: 960px) {
+  grid-col[md='6'] {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+}
+@media screen and (min-width: 0) {
+  grid-col[xs='12'] {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}
+
+grid-col {
+  flex: 1 1 auto;
+  display: block;
+}
