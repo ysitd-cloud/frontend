@@ -1,9 +1,9 @@
 define(['../../wrap.js', './style.css'], (WrapperElement) => {
-  class ComponentContainer extends WrapperElement {
+  class GridContainer extends WrapperElement {
     static get is() {
-      return 'component-container';
+      return 'grid-container';
     }
   }
 
-  customElements.define(ComponentContainer.is, ComponentContainer);
+  customElements.define(GridContainer.is, GridContainer);
 });
