@@ -1,0 +1,27 @@
+grid-container {
+  flex: 1 1 100%;
+  width: 100%;
+  display: block;
+}
+
+grid-container[fluid] {
+  max-width: 100% !important;
+}
+
+@media only screen and (min-width: 600px) {
+  grid-container {
+    max-width: 562.5px;
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  grid-container {
+    max-width: 900px;
+  }
+}
+
+@media only screen and (min-width: 1264px) {
+  grid-container {
+    max-width: 1185px;
+  }
+}
