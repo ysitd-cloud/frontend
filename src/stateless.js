@@ -6,21 +6,6 @@ define([
 ], (VirtualDom, VText, convertAttributes) => {
   const { h } = VirtualDom;
 
-  function cloneChildren(ele) {
-    return Array.from(ele.childNodes).map((node) => {
-      if (node instanceof Text) {
-        return node.wholeText;
-        // eslint-disable-next-line no-use-before-define
-      } else if (node instanceof StatelessElement) {
-        return node.tree;
-      }
-
-      const attributes = convertAttributes(node.attributes);
-
-      return h(node.tagName, attributes, cloneChildren(node));
-    });
-  }
-
   class StatelessElement extends HTMLElement {
     constructor() {
       super();
@@ -32,7 +17,7 @@ define([
     }
 
     cloneChildren() {
-      this.renderChildren = cloneChildren(this);
+      this.renderChildren = Array.from(this.childNodes).map(node => node.cloneNode(true));
     }
 
     connectedCallback() {
@@ -64,7 +49,7 @@ define([
     }
 
     mountNode() {
-      const tree = this.render(h, this.renderChildren);
+      const tree = this.render(h, h('slot'));
       if (Array.isArray(tree)) {
         this.mountMultiNode(tree);
       } else {
@@ -83,6 +68,14 @@ define([
         this.rootNode = VirtualDom.create(tree);
         this.appendChild(this.rootNode);
       }
+
+      const slot = this.rootNode.querySelector('slot');
+      if (slot) {
+        const slotHolder = slot.parentNode;
+        this.renderChildren.forEach(child => slotHolder.appendChild(child));
+        slotHolder.removeChild(slot);
+      }
+
       this.tree = tree;
     }
 
@@ -95,8 +88,17 @@ define([
           this.removeChild(this.firstChild);
         }
         this.rootNode = trees.map(tree => VirtualDom.create(typeof tree === 'string' ? new VText(tree) : tree));
-        this.rootNode.forEach(node => this.appendChild(node));
+        this.rootNode.forEach(node => node && this.appendChild(node));
       }
+
+      const childRoot = this.rootNode.find(node => node.querySelector('slot'));
+      if (childRoot) {
+        const slot = childRoot.querySelector('slot');
+        const slotHolder = slot.parentNode;
+        this.renderChildren.forEach(child => slotHolder.appendChild(child));
+        slotHolder.removeChild(slot);
+      }
+
       this.tree = trees;
     }
   }

@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+<a href="./">Home</a>
+<component-card>
+  <component-toolbar dark color="primary">
+    <component-toolbar-title>Login</component-toolbar-title>
+  </component-toolbar>
+  <component-card-text>
+    <span data-role="error"></span>
+    <component-input
+      color="primary"
+      label="Username"
+      name="username"
+      required
+      autofocus
+    ></component-input>
+    <component-input
+      type="password"
+      color="primary"
+      label="Password"
+      name="password"
+      required
+    ></component-input>
+  </component-card-text>
+  <component-card-action>
+    <component-btn type="submit" color="primary" raised flat>Login</component-btn>
+  </component-card-action>
+</component-card>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-loader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.21.3/system.js"></script>
+<script src="./config.js"></script>
+<script>
+  /* globals SystemJS, configSystemJs */
+  SystemJS.config(configSystemJs('/'));
+  SystemJS.import('./component/toolbar/element.js')
+    .then(() => SystemJS.import('./component/input/element.js'))
+    .then(() => SystemJS.import('./component/btn/element.js'))
+    .then(() => SystemJS.import('./component/card/element.js'));
+</script>
+</body>
+</html>
