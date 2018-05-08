@@ -2,10 +2,7 @@ grid-container {
   flex: 1 1 100%;
   width: 100%;
   display: block;
-}
-
-grid-container[fluid] {
-  max-width: 100% !important;
+  margin: auto;
 }
 
 @media only screen and (min-width: 600px) {
@@ -24,4 +21,8 @@ grid-container[fluid] {
   grid-container {
     max-width: 1185px;
   }
+}
+
+grid-container[fluid] {
+  max-width: 100%;
 }

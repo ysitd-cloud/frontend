@@ -1,19 +1,11 @@
-define(['../../stateless.js', './style.css'], (StatelessElement) => {
-  class AppFrame extends StatelessElement {
+define(['../../wrap.js', './style.css'], (WrappedElement) => {
+  class AppFrame extends WrappedElement {
     static get is() {
       return 'app-frame';
     }
 
     static get observedAttributes() {
-      return [
-        'type',
-      ];
-    }
-
-    render(h, children) {
-      return h('div', {
-        class: 'app-frame style-scope',
-      }, children);
+      return [];
     }
   }
 

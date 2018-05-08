@@ -9,6 +9,7 @@ define([
   class StatelessElement extends HTMLElement {
     constructor() {
       super();
+      this.renderChildren = null;
       this.props = convertAttributes(this.attributes);
       this.rootNode = null;
       this.tree = null;
@@ -17,7 +18,10 @@ define([
     }
 
     cloneChildren() {
-      this.renderChildren = Array.from(this.childNodes).map(node => node.cloneNode(true));
+      if (this.renderChildren === null) {
+        this.renderChildren = Array.from(this.childNodes).map(node => node.cloneNode(true));
+        console.debug(this, this.childNodes, this.renderChildren);
+      }
     }
 
     connectedCallback() {
@@ -49,6 +53,7 @@ define([
     }
 
     mountNode() {
+      this.cloneChildren();
       const tree = this.render(h, h('slot'));
       if (Array.isArray(tree)) {
         this.mountMultiNode(tree);
@@ -69,13 +74,6 @@ define([
         this.appendChild(this.rootNode);
       }
 
-      const slot = this.rootNode.querySelector('slot');
-      if (slot) {
-        const slotHolder = slot.parentNode;
-        this.renderChildren.forEach(child => slotHolder.appendChild(child));
-        slotHolder.removeChild(slot);
-      }
-
       this.tree = tree;
     }
 
@@ -90,15 +88,6 @@ define([
         this.rootNode = trees.map(tree => VirtualDom.create(typeof tree === 'string' ? new VText(tree) : tree));
         this.rootNode.forEach(node => node && this.appendChild(node));
       }
-
-      const childRoot = this.rootNode.find(node => node.querySelector('slot'));
-      if (childRoot) {
-        const slot = childRoot.querySelector('slot');
-        const slotHolder = slot.parentNode;
-        this.renderChildren.forEach(child => slotHolder.appendChild(child));
-        slotHolder.removeChild(slot);
-      }
-
       this.tree = trees;
     }
   }

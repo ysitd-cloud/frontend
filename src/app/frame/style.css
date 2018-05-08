@@ -1,4 +1,4 @@
-app-frame div {
+app-frame {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
@@ -9,7 +9,13 @@ app-frame div {
   box-sizing: inherit;
 }
 
-app-frame[theme=light] div {
+app-frame[theme=light] {
   background: #fafafa;
   color: rgba(0,0,0,.87);
+}
+
+app-frame main {
+  display: flex;
+  flex: 1 0 auto;
+  transition: padding .3s cubic-bezier(.25,.8,.5,1);
 }

@@ -32,11 +32,18 @@ define([
 
     const { children } = vnode;
 
-    for (let i = 0; i < children.length; i += 1) {
-      const childNode = createElement(children[i], opts);
-      if (childNode) {
-        node.appendChild(childNode);
-      }
+    const childNodes = children
+      .map(child => createElement(child, opts))
+      .filter(ele => !!ele);
+    const slot = childNodes
+      .find(child => child instanceof HTMLSlotElement || (child instanceof HTMLElement && child.querySelector('slot')));
+    debugger;
+    if (vnode.tagName.indexOf('-') !== -1 && slot) {
+      const slotHolder = slot.parentNode;
+      childNodes.forEach(childNode => slotHolder.insertBefore(childNode, slot));
+      slotHolder.removeChild(slot);
+    } else {
+      childNodes.forEach(childNode => node.appendChild(childNode));
     }
 
     return node;
