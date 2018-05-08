@@ -1,8 +1,14 @@
 {
   "root": true,
+  "env": {
+    "browser": true,
+    "amd": true
+  },
   "extends": "airbnb-base",
   "plugins": ["html"],
   // add your custom rules here
   "rules": {
+    "no-param-reassign": ["error", {"props": false}],
+    "import/no-amd": "off"
   }
 }

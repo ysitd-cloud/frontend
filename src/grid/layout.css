@@ -1,0 +1,131 @@
+.container.grid-list-xs .layout:only-child {
+  margin: -1px;
+}
+
+.container.grid-list-xs .layout:not(:only-child) {
+  margin: auto -1px;
+}
+
+.container.grid-list-xs *:not(:only-child) .layout:first-child {
+  margin-top: -1px;
+}
+
+.container.grid-list-xs *:not(:only-child) .layout:last-child {
+  margin-bottom: -1px;
+}
+
+.container.grid-list-xl .layout:only-child {
+  margin: -12px;
+}
+
+.container.grid-list-xl .layout:not(:only-child) {
+  margin: auto -12px;
+}
+
+.container.grid-list-xl *:not(:only-child) .layout:first-child {
+  margin-top: -12px;
+}
+
+.container.grid-list-xl *:not(:only-child) .layout:last-child {
+  margin-bottom: -12px;
+}
+
+.container.fill-height .layout {
+  height: 100%;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.container.grid-list-sm .layout:only-child {
+  margin: -2px;
+}
+
+.container.grid-list-sm .layout:not(:only-child) {
+  margin: auto -2px;
+}
+
+.container.grid-list-sm *:not(:only-child) .layout:first-child {
+  margin-top: -2px;
+}
+
+.container.grid-list-sm *:not(:only-child) .layout:last-child {
+  margin-bottom: -2px;
+}
+
+.container.grid-list-md .layout:only-child {
+  margin: -4px;
+}
+
+.container.grid-list-md .layout:not(:only-child) {
+  margin: auto -4px;
+}
+
+.container.grid-list-md *:not(:only-child) .layout:first-child {
+  margin-top: -4px;
+}
+
+.container.grid-list-md *:not(:only-child) .layout:last-child {
+  margin-bottom: -4px;
+}
+
+.container.grid-list-lg .layout:only-child {
+  margin: -8px;
+}
+
+.container.grid-list-lg .layout:not(:only-child) {
+  margin: auto -8px;
+}
+
+.container.grid-list-lg *:not(:only-child) .layout:first-child {
+  margin-top: -8px;
+}
+
+.container.grid-list-lg *:not(:only-child) .layout:last-child {
+  margin-bottom: -8px;
+}
+
+.layout {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+.layout.row {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.layout.row.reverse {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+}
+
+.layout.column {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.layout.column.reverse {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: column-reverse;
+  flex-direction: column-reverse;
+}
+.layout.wrap {
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
