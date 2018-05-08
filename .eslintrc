@@ -1,6 +1,5 @@
 {
   "root": true,
-  "parser": "babel-eslint",
   "extends": "airbnb-base",
   "plugins": ["html"],
   // add your custom rules here
