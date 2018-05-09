@@ -52,7 +52,6 @@ define(['./style.css'], () => ({
             name: 'password',
             type: 'password',
             label: 'Password',
-            autofocus: true,
             required: true,
           },
         }),
