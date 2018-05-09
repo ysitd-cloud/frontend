@@ -7,16 +7,22 @@
   "scripts": {
     "dev": "browser-sync start --config bs-config.js",
     "lint": "eslint --ext js,html .",
-    "build": "gulp build"
+    "build": "gulp build",
+    "postinstall": "jspm install",
+    "gulp": "gulp",
+    "jspm": "jspm"
   },
   "dependencies": {},
   "devDependencies": {
+    "autoprefixer": "^8.4.1",
     "browser-sync": "^2.24.4",
+    "cssnano": "^3.10.0",
     "eslint": "^4.18.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-html": "^4.0.2",
     "eslint-plugin-import": "^2.9.0",
     "gulp": "^3.9.1",
+    "gulp-postcss": "^7.0.1",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify-es": "^1.0.1",
     "jspm": "^0.16.53"

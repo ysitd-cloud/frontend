@@ -1,3 +1,4 @@
 build/*.js
 config/*.js
 jspm_packages
+src/config.js
