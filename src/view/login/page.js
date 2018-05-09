@@ -1,6 +1,4 @@
-/* globals customElements */
-
-define(['vue'], (Vue) => {
+define(['vue', './element.js', '../../bootstrap.js'], (Vue, VLoginView) => {
   class LoginView extends HTMLElement {
     static get observedAttributes() {
       return ['error', 'next'];
@@ -13,7 +11,14 @@ define(['vue'], (Vue) => {
     constructor() {
       super();
       this.vm = new Vue({
-        render: h => h('p'),
+        render(h) {
+          return h(VLoginView, {
+            props: {
+              error: this.error,
+              next: this.next,
+            },
+          });
+        },
         data: {
           error: null,
           next: '/',

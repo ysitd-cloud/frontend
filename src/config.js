@@ -1,7 +1,7 @@
 /* globals System */
 System.config({
   baseURL: '/',
-  defaultJSExtensions: true,
+  defaultJSExtensions: false,
   transpiler: false,
   paths: {
     'github:*': 'jspm_packages/github/*',
@@ -10,15 +10,15 @@ System.config({
 
   meta: {
     '*.css': {
-      loader: 'css',
+      loader: 'css.js',
     },
-    '*': {
+    '*.js': {
       scriptLoad: true,
     },
   },
 
   map: {
-    css: 'github:systemjs/plugin-css@0.1.37',
     vue: 'https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.runtime.js',
+    vuetify: 'https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.0.17/vuetify.min.js',
   },
 });

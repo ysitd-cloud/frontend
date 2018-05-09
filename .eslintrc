@@ -9,6 +9,7 @@
   // add your custom rules here
   "rules": {
     "no-param-reassign": ["error", {"props": false}],
-    "import/no-amd": "off"
+    "import/no-amd": "off",
+    "no-plusplus": "off"
   }
 }
